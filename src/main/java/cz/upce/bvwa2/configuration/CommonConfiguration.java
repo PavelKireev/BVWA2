@@ -13,11 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class CommonConfiguration {
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     @Primary
     public ObjectMapper objectMapper() {
         return Jackson2ObjectMapperBuilder.json()

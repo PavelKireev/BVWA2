@@ -1,6 +1,6 @@
 package cz.upce.bvwa2.db.entity;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -15,6 +15,12 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Entity
 public class Doctor extends User {
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private User user;
+    private Long office;
 
     @Override
     public boolean equals(Object o) {
