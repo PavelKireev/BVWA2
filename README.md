@@ -11,4 +11,4 @@ go there and call java keytool with the following command in terminal:
   -keystore bvwa2-jwt.jks 
 ```
 
-Then fill the required info and matching keypass option password
+Then fill the required info using the matching key pass option as the password
