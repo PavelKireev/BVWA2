@@ -1,4 +1,4 @@
-#JWT Keystore generation
+# JWT Keystore generation
 
 To generate your local keystore you must create directory "local" in resources,
 go there and call java keytool with the following command in terminal:
