@@ -8,13 +8,14 @@ import java.util.Objects;
 
 @Data
 @Entity
-public abstract class User extends BaseEntity {
+public class User extends BaseEntity {
     private String username;
     private String firstName;
     private String lastName;
     private String password;
     private String email;
     private String phoneNumber;
+    private String role;
 
     @Override
     public boolean equals(Object o) {

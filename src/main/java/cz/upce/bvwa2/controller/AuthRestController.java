@@ -1,6 +1,5 @@
 package cz.upce.bvwa2.controller;
 
-import cz.upce.bvwa2.model.auth.LogoutModel;
 import cz.upce.bvwa2.model.auth.SignInModel;
 import cz.upce.bvwa2.model.auth.SignUpModel;
 import cz.upce.bvwa2.service.AuthService;

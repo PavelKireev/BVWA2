@@ -20,13 +20,15 @@ CREATE TABLE doctor
 (
     id            BIGINT PRIMARY KEY,
     office_number INT,
+    phone_number  TEXT,
     FOREIGN KEY (id) REFERENCES users (id)
 );
 
 CREATE TABLE patient
 (
-    id       BIGINT PRIMARY KEY,
-    birthday DATE,
+    id           BIGINT PRIMARY KEY,
+    birthday     DATE,
+    phone_number TEXT,
     FOREIGN KEY (id) REFERENCES users (id)
 );
 
@@ -44,5 +46,4 @@ WITH new_user AS (
                 '$2a$10$1heAywaRY7r/ACJlSSK84eiFy59T7D1SZM7lBUdsKb3f9I2xz7sjy', 'ADMIN')
         RETURNING id
 )
-INSERT INTO admin (id)
-SELECT id FROM new_user;
+INSERT INTO admin (id) SELECT id FROM new_user;

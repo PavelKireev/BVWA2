@@ -32,13 +32,13 @@ public class AuthServiceImpl implements AuthService {
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));
         JwtClaimsSet claims = JwtClaimsSet.builder()
-            .issuer("self")
-            .issuedAt(now)
-            .expiresAt(now.plusSeconds(expiry))
-            .subject(authentication.getName())
-            .claim("scope", scope)
-            .claim("userId", authUser.getId())
-            .build();
+                                          .issuer("self")
+                                          .issuedAt(now)
+                                          .expiresAt(now.plusSeconds(expiry))
+                                          .subject(authentication.getName())
+                                          .claim("scope", scope)
+                                          .claim("userId", authUser.getId())
+                                          .build();
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
