@@ -35,9 +35,18 @@ CREATE TABLE patient
 CREATE TABLE appointment
 (
     id         BIGSERIAL PRIMARY KEY,
-    doctor_id  BIGINT,
-    patient_id BIGINT,
+    doctor_id  BIGINT NOT NULL,
+    patient_id BIGINT NOT NULL,
     time       TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE working_hours
+(
+    id          BIGSERIAL PRIMARY KEY,
+    doctor_id   BIGINT NOT NULL,
+    day_of_week TEXT   NOT NULL,
+    hour_from   INT    NOT NULL,
+    hours_count INT    NOT NULL
 );
 
 WITH new_user AS (
@@ -46,4 +55,7 @@ WITH new_user AS (
                 '$2a$10$1heAywaRY7r/ACJlSSK84eiFy59T7D1SZM7lBUdsKb3f9I2xz7sjy', 'ADMIN')
         RETURNING id
 )
-INSERT INTO admin (id) SELECT id FROM new_user;
+INSERT
+INTO admin (id)
+SELECT id
+FROM new_user;

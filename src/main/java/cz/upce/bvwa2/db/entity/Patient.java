@@ -1,16 +1,14 @@
 package cz.upce.bvwa2.db.entity;
 
 import ch.qos.logback.core.util.TimeUtil;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -27,6 +25,9 @@ public class Patient extends User {
 
     @DateTimeFormat
     private Date birthday;
+
+    @OneToMany(mappedBy = "patient")
+    private List<Appointment> appointments;
 
     @Override
     public boolean equals(Object o) {

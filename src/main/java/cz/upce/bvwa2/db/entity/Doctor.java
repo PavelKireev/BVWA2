@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -21,6 +22,9 @@ public class Doctor extends User {
     @JoinColumn(name = "id")
     private User user;
     private Long office;
+
+    @OneToMany(mappedBy = "doctor")
+    private List<Appointment> appointments;
 
     @Override
     public boolean equals(Object o) {

@@ -1,13 +1,18 @@
 package cz.upce.bvwa2.db.entity;
 
 import jakarta.persistence.Entity;
-import lombok.Data;
+import jakarta.persistence.Table;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
+@Table(name = "users")
 public class User extends BaseEntity {
     private String username;
     private String firstName;

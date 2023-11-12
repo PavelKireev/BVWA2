@@ -14,7 +14,7 @@ public class AppointmentRestController {
 
     private final AppointmentService appointmentService;
 
-    @GetMapping("list")
+    @GetMapping("all")
     public List<AppointmentModel> list(){
         return appointmentService.getAll();
     }
@@ -26,17 +26,24 @@ public class AppointmentRestController {
         return appointmentService.getOneByUuid(uuid);
     }
 
-    @PostMapping("create")
-    public void create(
-        @RequestBody String s
+    @GetMapping("patient")
+    public List<AppointmentModel> patient(
+        @RequestParam String patientUuid
     ) {
-
+        return appointmentService.getAllByPatientUuid(patientUuid);
     }
 
-    @PostMapping("update")
-    public void update(
-        @RequestBody String s
-    ){
+    @GetMapping("doctor")
+    public List<AppointmentModel> doctor(
+        @RequestParam String doctorUuid
+    ) {
+        return appointmentService.getAllByDoctorUuid(doctorUuid);
+    }
+
+    @PostMapping("create")
+    public void create(
+        @RequestBody AppointmentModel model
+    ) {
 
     }
 

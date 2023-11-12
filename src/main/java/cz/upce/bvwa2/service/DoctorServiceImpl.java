@@ -1,12 +1,18 @@
 package cz.upce.bvwa2.service;
 
+import cz.upce.bvwa2.db.repository.DoctorRepository;
 import cz.upce.bvwa2.model.doctor.DoctorModel;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DoctorServiceImpl implements DoctorService {
+
+    private final DoctorRepository repository;
+
     @Override
     public DoctorModel getOneByUuid(String uuid) {
         return null;
