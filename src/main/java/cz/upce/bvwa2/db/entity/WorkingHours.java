@@ -4,10 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Objects;
 
@@ -15,8 +12,10 @@ import java.util.Objects;
 @Setter
 @ToString
 @Entity
+@Builder
 @RequiredArgsConstructor
 @Table(name = "working_hours")
+@AllArgsConstructor
 public class WorkingHours extends BaseEntity {
 
     @ManyToOne
@@ -40,6 +39,7 @@ public class WorkingHours extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getDoctor(), getDayOfWeek(), getHourFrom(), getHoursCount());
+        return Objects.hash(getDoctor(), getDayOfWeek(),
+                            getHourFrom(), getHoursCount());
     }
 }

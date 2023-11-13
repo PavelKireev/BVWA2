@@ -27,18 +27,21 @@ public class Patient extends User {
     private Date birthday;
 
     @OneToMany(mappedBy = "patient")
+    @ToString.Exclude
     private List<Appointment> appointments;
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         Patient patient = (Patient) o;
-        return id != null && Objects.equals(id, patient.id);
+        return Objects.equals(getUser(), patient.getUser()) && Objects.equals(getBirthday(), patient.getBirthday()) && Objects.equals(getAppointments(), patient.getAppointments());
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(super.hashCode(), getUser(), getBirthday(), getAppointments());
     }
 }

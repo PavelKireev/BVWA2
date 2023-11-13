@@ -3,14 +3,15 @@ package cz.upce.bvwa2.service;
 import cz.upce.bvwa2.db.entity.Patient;
 import cz.upce.bvwa2.db.repository.PatientRepository;
 import cz.upce.bvwa2.model.auth.SignUpModel;
+import cz.upce.bvwa2.model.patient.PatientCreateModel;
 import cz.upce.bvwa2.model.patient.PatientModel;
+import cz.upce.bvwa2.model.patient.PatientUpdateModel;
 import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,5 +36,20 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public void create(SignUpModel signUpModel) {
         patientRepository.save(new Patient());
+    }
+
+    @Override
+    public void update(PatientUpdateModel model) {
+        patientRepository.save(model.toEntity());
+    }
+
+    @Override
+    public void create(PatientCreateModel patientCreateModel) {
+        patientRepository.save(patientCreateModel.toEntity());
+    }
+
+    @Override
+    public void deleteByUuid(String uuid) {
+        patientRepository.deleteByUuid(uuid);
     }
 }

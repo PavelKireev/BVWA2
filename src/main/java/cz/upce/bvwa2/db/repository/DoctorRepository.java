@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     Optional<Doctor> findByUuid(String uuid);
+    void deleteByUuid(String uuid);
 }

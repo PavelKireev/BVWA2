@@ -44,13 +44,13 @@ public class AppointmentRestController {
     public void create(
         @RequestBody AppointmentModel model
     ) {
-
+        appointmentService.create(model);
     }
 
     @DeleteMapping("delete/{uuid}")
     public void delete(
         @PathVariable String uuid
     ) {
-
+        appointmentService.deleteByUuid(uuid);
     }
 }

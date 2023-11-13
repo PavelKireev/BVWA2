@@ -10,4 +10,6 @@ public interface AppointmentService extends AbstractService<AppointmentModel> {
     List<AppointmentModel> getAllByDoctorUuid(String doctorUuid);
     List<AppointmentModel> getAllByPatientUuid(String patientUuid);
 
+    List<AppointmentModel> getAll();
+
 }
