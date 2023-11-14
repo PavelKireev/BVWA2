@@ -1,7 +1,9 @@
 package cz.upce.bvwa2.service;
 
 import cz.upce.bvwa2.db.repository.AdminRepository;
+import cz.upce.bvwa2.model.admin.AdminCreateModel;
 import cz.upce.bvwa2.model.admin.AdminModel;
+import cz.upce.bvwa2.model.admin.AdminUpdateModel;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public AdminModel getOneByUuid(String uuid) {
         return repository.findByUuid(uuid)
-                         .map(AdminModel::new)
+                         .map(AdminModel::fromEntity)
                          .orElseThrow(EntityNotFoundException::new);
     }
 
@@ -24,8 +26,23 @@ public class AdminServiceImpl implements AdminService {
     public List<AdminModel> getAll() {
         return repository.findAll()
                          .stream()
-                         .map(AdminModel::new)
+                         .map(AdminModel::fromEntity)
                          .toList();
+    }
+
+    @Override
+    public void create(AdminCreateModel adminModel) {
+        repository.save(adminModel.toEntity());
+    }
+
+    @Override
+    public void delete(String uuid) {
+        repository.deleteByUuid(uuid);
+    }
+
+    @Override
+    public void update(AdminUpdateModel adminModel) {
+        repository.save(adminModel.toEntity());
     }
 
 }

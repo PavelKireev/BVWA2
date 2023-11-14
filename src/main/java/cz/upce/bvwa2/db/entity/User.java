@@ -10,11 +10,12 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
+@Builder()
 @RequiredArgsConstructor
 @Entity
 @Table(name = "users")
+@AllArgsConstructor
 public class User extends BaseEntity {
-    private String username;
     private String firstName;
     private String lastName;
     private String password;
@@ -27,8 +28,7 @@ public class User extends BaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(getUsername(), user.getUsername()) &&
-               Objects.equals(getFirstName(), user.getFirstName()) &&
+        return Objects.equals(getFirstName(), user.getFirstName()) &&
                Objects.equals(getLastName(), user.getLastName()) &&
                Objects.equals(getPassword(), user.getPassword()) &&
                Objects.equals(getEmail(), user.getEmail()) &&
@@ -38,7 +38,6 @@ public class User extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUsername(), getFirstName(), getLastName(),
-                            getPassword(), getEmail(), getPhoneNumber(), getRole());
+        return Objects.hash(getFirstName(), getLastName(), getPassword(), getEmail(), getPhoneNumber(), getRole());
     }
 }
