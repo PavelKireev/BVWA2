@@ -1,5 +1,6 @@
 package cz.upce.bvwa2.controller;
 
+import cz.upce.bvwa2.model.appointment.AppointmentCreateModel;
 import cz.upce.bvwa2.model.appointment.AppointmentModel;
 import cz.upce.bvwa2.service.AppointmentService;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +43,7 @@ public class AppointmentRestController {
 
     @PostMapping("create")
     public void create(
-        @RequestBody AppointmentModel model
+        @RequestBody AppointmentCreateModel model
     ) {
         appointmentService.create(model);
     }

@@ -1,12 +1,12 @@
 package cz.upce.bvwa2.controller;
 
 import cz.upce.bvwa2.model.workinghours.WorkingHoursCreateModel;
+import cz.upce.bvwa2.model.workinghours.WorkingHoursModel;
 import cz.upce.bvwa2.service.WorkingHoursService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("working-hours")
@@ -20,5 +20,19 @@ public class WorkingHoursRestController {
         @RequestBody WorkingHoursCreateModel model
     ) {
         workingHoursService.create(model);
+    }
+
+    @GetMapping("list")
+    public List<WorkingHoursModel> list(
+        @RequestParam String doctorUuid
+    ) {
+        return workingHoursService.getAllByDoctorUuid(doctorUuid);
+    }
+
+    @GetMapping("delete")
+    public void delete(
+        @RequestParam String uuid
+    ) {
+        workingHoursService.deleteByUuid(uuid);
     }
 }

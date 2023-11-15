@@ -4,6 +4,7 @@ import cz.upce.bvwa2.db.entity.Appointment;
 import cz.upce.bvwa2.db.repository.AppointmentRepository;
 import cz.upce.bvwa2.db.repository.DoctorRepository;
 import cz.upce.bvwa2.db.repository.PatientRepository;
+import cz.upce.bvwa2.model.appointment.AppointmentCreateModel;
 import cz.upce.bvwa2.model.appointment.AppointmentModel;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +56,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void create(AppointmentModel model) {
+    public void create(AppointmentCreateModel model) {
         Appointment appointment = new Appointment();
         appointment.setDoctor(doctorRepository.findByUuid(model.getDoctorUuid())
                                               .orElseThrow(EntityNotFoundException::new));

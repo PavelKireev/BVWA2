@@ -67,4 +67,25 @@ public class WorkingHoursServiceImpl implements WorkingHoursService {
     public void deleteByUuid(String uuid) {
         workingHoursRepository.deleteByUuid(uuid);
     }
+
+    @Override
+    public List<WorkingHoursModel> getAllByDoctorUuid(String doctorUuid) {
+        return workingHoursRepository.findAllByDoctorUuid(doctorUuid)
+                                     .stream()
+                                     .map(
+                                         workingHours -> WorkingHoursModel.builder()
+                                                                          .uuid(workingHours.getUuid())
+                                                                          .hourFrom(workingHours.getHourFrom())
+                                                                          .hoursCount(workingHours.getHoursCount())
+                                                                          .dayOfWeek(workingHours.getDayOfWeek())
+                                                                          .doctorName(workingHours.getDoctor()
+                                                                                                  .getFirstName() +
+                                                                                      " " +
+                                                                                     workingHours.getDoctor()
+                                                                                                 .getLastName())
+                                                                          .doctorUuid(workingHours.getDoctor()
+                                                                                                  .getUuid())
+                                                                          .build())
+                                     .toList();
+    }
 }

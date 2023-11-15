@@ -29,7 +29,7 @@ public class AuthUser implements UserDetails {
     public static AuthUser build(User user) {
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
 
-        return new AuthUser(user.getId(), user.getUsername(),
+        return new AuthUser(user.getId(), user.getEmail(),
                             user.getPassword(), authorities);
     }
 
