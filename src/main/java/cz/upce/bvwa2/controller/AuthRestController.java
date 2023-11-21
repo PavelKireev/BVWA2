@@ -1,17 +1,19 @@
 package cz.upce.bvwa2.controller;
 
+import cz.upce.bvwa2.configuration.security.AuthUser;
 import cz.upce.bvwa2.model.auth.SignInModel;
 import cz.upce.bvwa2.model.auth.SignUpModel;
 import cz.upce.bvwa2.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("api/authentication")
 @RequiredArgsConstructor
 public class AuthRestController {
 

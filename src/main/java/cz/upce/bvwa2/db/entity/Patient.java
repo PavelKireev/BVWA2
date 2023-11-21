@@ -15,8 +15,10 @@ import java.util.Objects;
 @Setter
 @Entity
 @ToString
-@RequiredArgsConstructor
-public class Patient extends User {
+public class Patient {
+
+    @Id
+    private Long id;
 
     @OneToOne
     @MapsId
@@ -30,6 +32,9 @@ public class Patient extends User {
     @ToString.Exclude
     private List<Appointment> appointments;
 
+    public Patient() {
+        this.user = new User();
+    }
 
     @Override
     public boolean equals(Object o) {

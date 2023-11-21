@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("doctor")
+@RequestMapping("api/doctor")
 @RequiredArgsConstructor
 public class DoctorRestController {
 
@@ -33,7 +33,7 @@ public class DoctorRestController {
 
     @PostMapping("create")
     public void create(
-        @RequestBody DoctorModel model
+        @RequestBody DoctorCreateModel model
     ) {
         doctorService.create(model);
     }

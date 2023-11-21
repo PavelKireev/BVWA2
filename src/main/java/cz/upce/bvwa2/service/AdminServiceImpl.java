@@ -17,7 +17,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public AdminModel getOneByUuid(String uuid) {
-        return repository.findByUuid(uuid)
+        return repository.findByUserUuid(uuid)
                          .map(AdminModel::fromEntity)
                          .orElseThrow(EntityNotFoundException::new);
     }
@@ -37,7 +37,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void delete(String uuid) {
-        repository.deleteByUuid(uuid);
+        repository.deleteByUserUuid(uuid);
     }
 
     @Override

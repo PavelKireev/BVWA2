@@ -1,9 +1,6 @@
 package cz.upce.bvwa2.db.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -13,7 +10,10 @@ import lombok.*;
 @RequiredArgsConstructor
 @Entity
 @AllArgsConstructor
-public class Admin extends BaseEntity {
+public class Admin {
+
+    @Id
+    private Long id;
 
     @OneToOne
     @MapsId

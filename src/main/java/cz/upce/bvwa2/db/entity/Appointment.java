@@ -20,11 +20,11 @@ import java.util.Objects;
 public class Appointment extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name="doctor_id")
+    @JoinColumn(name="doctor_uuid")
     private Doctor doctor;
 
     @ManyToOne
-    @JoinColumn(name="patient_id")
+    @JoinColumn(name="patient_uuid")
     private Patient patient;
     private LocalDateTime time;
 

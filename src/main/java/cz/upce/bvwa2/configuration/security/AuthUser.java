@@ -3,6 +3,7 @@ package cz.upce.bvwa2.configuration.security;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.upce.bvwa2.db.entity.User;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,27 +20,28 @@ import java.util.Objects;
 @NoArgsConstructor
 public class AuthUser implements UserDetails {
 
+    @Getter
     private Long id;
     private String username;
     @JsonIgnore
     private String password;
-
+    @Getter
+    private String uuid;
+    @Getter
+    private String role;
     private Collection<? extends GrantedAuthority> authorities;
 
     public static AuthUser build(User user) {
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
 
         return new AuthUser(user.getId(), user.getEmail(),
-                            user.getPassword(), authorities);
+                            user.getPassword(), user.getUuid(),
+                            user.getRole(), authorities);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     @Override

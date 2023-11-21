@@ -28,7 +28,7 @@ public class AdminUpdateModel {
                                      .role(role)
                                      .build())
                            .build();
-        admin.setUuid(uuid);
+        admin.getUser().setUuid(uuid);
         return admin;
     }
 }

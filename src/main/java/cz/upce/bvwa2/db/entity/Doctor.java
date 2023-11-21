@@ -13,31 +13,36 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @Entity
-public class Doctor extends User {
+public class Doctor {
+
+    @Id
+    private Long id;
 
     @OneToOne
     @MapsId
     @JoinColumn(name = "id")
     private User user;
-    private Long office;
+    private Long officeNumber;
 
     @OneToMany(mappedBy = "doctor")
     @ToString.Exclude
     private List<Appointment> appointments;
 
+    public Doctor() {
+        this.user = new User();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         Doctor doctor = (Doctor) o;
-        return Objects.equals(getUser(), doctor.getUser()) && Objects.equals(getOffice(), doctor.getOffice()) && Objects.equals(getAppointments(), doctor.getAppointments());
+        return Objects.equals(getId(), doctor.getId()) && Objects.equals(getUser(), doctor.getUser()) && Objects.equals(getOfficeNumber(), doctor.getOfficeNumber()) && Objects.equals(getAppointments(), doctor.getAppointments());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getUser(), getOffice(), getAppointments());
+        return Objects.hash(getId(), getUser(), getOfficeNumber(), getAppointments());
     }
 }

@@ -7,8 +7,10 @@ import cz.upce.bvwa2.model.patient.PatientCreateModel;
 import cz.upce.bvwa2.model.patient.PatientModel;
 import cz.upce.bvwa2.model.patient.PatientUpdateModel;
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,12 +19,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PatientServiceImpl implements PatientService {
 
+    private final PasswordEncoder passwordEncoder;
     private final PatientRepository patientRepository;
 
     @Override
     @SneakyThrows
     public PatientModel getOneByUuid(String uuid) {
-        return new PatientModel(patientRepository.findByUuid(uuid).orElseThrow(EntityExistsException::new));
+        return new PatientModel(patientRepository.findByUserUuid(uuid).orElseThrow(EntityExistsException::new));
     }
 
     @Override
@@ -35,21 +38,30 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public void create(SignUpModel signUpModel) {
-        patientRepository.save(new Patient());
+        Patient patient = new Patient();
+        patient.getUser().setFirstName(signUpModel.getFirstName());
+        patient.getUser().setLastName(signUpModel.getLastName());
+        patient.getUser().setEmail(signUpModel.getEmail());
+        patient.getUser().setPassword(signUpModel.getPassword());
+        patient.getUser().setRole("PATIENT");
+        patientRepository.save(patient);
     }
 
     @Override
     public void update(PatientUpdateModel model) {
-        patientRepository.save(model.toEntity());
+        Patient patient = patientRepository.findByUserUuid(model.getUuid())
+                                           .orElseThrow(EntityNotFoundException::new);
+        patientRepository.save(model.toEntity(patient));
     }
 
     @Override
     public void create(PatientCreateModel patientCreateModel) {
+        patientCreateModel.setPassword(passwordEncoder.encode(patientCreateModel.getPassword()));
         patientRepository.save(patientCreateModel.toEntity());
     }
 
     @Override
     public void deleteByUuid(String uuid) {
-        patientRepository.deleteByUuid(uuid);
+        patientRepository.deleteByUserUuid(uuid);
     }
 }

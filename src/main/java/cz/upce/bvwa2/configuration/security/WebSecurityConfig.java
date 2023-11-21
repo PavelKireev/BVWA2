@@ -48,110 +48,107 @@ import java.security.cert.CertificateException;
 import java.security.interfaces.RSAPublicKey;
 import java.util.List;
 
+
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig {
 
-    @Configuration
-    @EnableWebSecurity
-    @EnableMethodSecurity
-    @RequiredArgsConstructor
-    public class SecurityConfiguration {
+    private final UserDetailsServiceImpl userDetailsService;
 
-        private final UserDetailsServiceImpl userDetailsService;
+    private KeyPair keyPair;
 
-        private KeyPair keyPair;
+    @PostConstruct
+    public void postConstruct(
+    ) throws IOException, CertificateException, KeyStoreException, NoSuchAlgorithmException, JOSEException {
+        ClassPathResource ksFile =
+            new ClassPathResource("bvwa2-jwt.jks");
 
-        @PostConstruct
-        public void postConstruct(
-        ) throws IOException, CertificateException, KeyStoreException, NoSuchAlgorithmException, JOSEException {
-            ClassPathResource ksFile =
-                new ClassPathResource("bvwa2-jwt.jks");
+        File file = new File(ksFile.getPath());
+        FileUtils.copyInputStreamToFile(ksFile.getInputStream(), file);
+        RSAKey rsaKey = RSAKey.load(
+            KeyStore.getInstance(
+                file, "bvwa2-pass".toCharArray()),
+            "bvwa2-oauth-jwt",
+            "bvwa2-pass".toCharArray());
 
-            File file = new File(ksFile.getPath());
-            FileUtils.copyInputStreamToFile(ksFile.getInputStream(), file);
-            RSAKey rsaKey = RSAKey.load(
-                KeyStore.getInstance(
-                    file, "bvwa2-pass".toCharArray()),
-                "bvwa2-oauth-jwt",
-                "bvwa2-pass".toCharArray());
+        this.keyPair = rsaKey.toKeyPair();
+    }
 
-            this.keyPair = rsaKey.toKeyPair();
-        }
+    @Bean
+    public JWKSet jwkSet() {
+        RSAKey.Builder builder = new RSAKey.Builder((RSAPublicKey) keyPair.getPublic())
+            .keyUse(KeyUse.SIGNATURE)
+            .algorithm(JWSAlgorithm.RS256)
+            .keyID("bvwa2-key-id");
+        return new JWKSet(builder.build());
+    }
 
-        @Bean
-        public JWKSet jwkSet() {
-            RSAKey.Builder builder = new RSAKey.Builder((RSAPublicKey) keyPair.getPublic())
-                .keyUse(KeyUse.SIGNATURE)
-                .algorithm(JWSAlgorithm.RS256)
-                .keyID("bvwa2-key-id");
-            return new JWKSet(builder.build());
-        }
+    @Bean
+    JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withPublicKey((RSAPublicKey) this.keyPair.getPublic()).build();
+    }
 
-        @Bean
-        JwtDecoder jwtDecoder() {
-            return NimbusJwtDecoder.withPublicKey((RSAPublicKey) this.keyPair.getPublic()).build();
-        }
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
-        @Bean
-        public DaoAuthenticationProvider authenticationProvider() {
-            DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
 
-            authProvider.setUserDetailsService(userDetailsService);
-            authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
 
-            return authProvider;
-        }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-            return new BCryptPasswordEncoder();
-        }
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(chain -> chain.requestMatchers("api/authentication/sign-in",
+                                                                "api/authentication/sign-up")
+            .permitAll().anyRequest().authenticated())
+            .httpBasic(Customizer.withDefaults())
+            .oauth2ResourceServer(configurer -> configurer.jwt(Customizer.withDefaults()))
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .exceptionHandling(exceptions -> exceptions
+                .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(AbstractHttpConfigurer::disable);
 
-        @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-            http.authorizeHttpRequests(chain -> chain.requestMatchers("auth/sign-in", "auth/sign-up")
-                    .permitAll().anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults())
-                .oauth2ResourceServer(configurer -> configurer.jwt(Customizer.withDefaults()))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .exceptionHandling(exceptions -> exceptions
-                    .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                    .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(AbstractHttpConfigurer::disable);
-
-            return http.build();
-        }
+        return http.build();
+    }
 
 
-        @Bean
-        JwtEncoder jwtEncoder() {
-            JWK jwk = new RSAKey.Builder((RSAPublicKey) this.keyPair.getPublic()).privateKey(this.keyPair.getPrivate())
-                .build();
+    @Bean
+    JwtEncoder jwtEncoder() {
+        JWK jwk = new RSAKey.Builder((RSAPublicKey) this.keyPair.getPublic()).privateKey(this.keyPair.getPrivate())
+            .build();
 
-            JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
-            return new NimbusJwtEncoder(jwks);
-        }
+        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
+        return new NimbusJwtEncoder(jwks);
+    }
 
-        @Bean
-        public JwtAuthenticationConverter jwtAuthenticationConverter() {
-            JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-            grantedAuthoritiesConverter.setAuthorityPrefix("");
-            JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-            jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
-            return jwtAuthenticationConverter;
-        }
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        grantedAuthoritiesConverter.setAuthorityPrefix("");
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
+        return jwtAuthenticationConverter;
+    }
 
-        private CorsConfigurationSource corsConfigurationSource() {
-            CorsConfiguration configuration = new CorsConfiguration();
-            configuration.setAllowedOrigins(List.of("http://localhost:4200"));
-            configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-            configuration.setAllowedHeaders(List.of("*"));
-            configuration.setAllowCredentials(true);
-            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-            source.registerCorsConfiguration("/**", configuration);
-            return source;
-        }
+    private CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

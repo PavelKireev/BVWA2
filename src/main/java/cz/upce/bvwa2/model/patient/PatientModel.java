@@ -10,9 +10,9 @@ import lombok.EqualsAndHashCode;
 public class PatientModel extends UserModel {
 
     public PatientModel(Patient entity) {
-        this.firstName = entity.getFirstName();
-        this.lastName = entity.getLastName();
-        this.email = entity.getEmail();
-        this.phoneNumber = entity.getPhoneNumber();
+        this.firstName = entity.getUser().getFirstName();
+        this.lastName = entity.getUser().getLastName();
+        this.email = entity.getUser().getEmail();
+        this.phoneNumber = entity.getUser().getPhoneNumber();
     }
 }

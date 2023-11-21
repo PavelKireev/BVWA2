@@ -15,13 +15,12 @@ public class PatientUpdateModel {
     private String phoneNumber;
     private Date birthday;
 
-    public Patient toEntity() {
-        Patient patient = new Patient();
-        patient.setUuid(this.uuid);
-        patient.setFirstName(this.firstName);
-        patient.setLastName(this.lastName);
-        patient.setEmail(this.email);
-        patient.setPhoneNumber(this.phoneNumber);
+    public Patient toEntity(Patient patient) {
+        patient.getUser().setUuid(this.uuid);
+        patient.getUser().setFirstName(this.firstName);
+        patient.getUser().setLastName(this.lastName);
+        patient.getUser().setEmail(this.email);
+        patient.getUser().setPhoneNumber(this.phoneNumber);
         patient.setBirthday(this.birthday);
         return patient;
     }

@@ -18,6 +18,7 @@ public class AppointmentModel {
     public AppointmentModel(Appointment appointment) {
         this.uuid = appointment.getUuid();
         this.patientUuid = appointment.getPatient()
+                                      .getUser()
                                       .getUuid();
         this.patientName = appointment.getPatient()
                                       .getUser()
@@ -25,6 +26,7 @@ public class AppointmentModel {
                                                                          .getUser()
                                                                          .getLastName();
         this.doctorUuid = appointment.getDoctor()
+                                     .getUser()
                                      .getUuid();
         this.doctorName = appointment.getDoctor()
                                      .getUser()

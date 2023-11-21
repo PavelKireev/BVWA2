@@ -15,23 +15,23 @@ public class DoctorModel {
     private String role;
 
     public DoctorModel(Doctor doctor) {
-        this.uuid = doctor.getUuid();
-        this.firstName = doctor.getFirstName();
-        this.lastName = doctor.getLastName();
-        this.email = doctor.getEmail();
-        this.phoneNumber = doctor.getPhoneNumber();
-        this.office = doctor.getOffice();
-        this.role = doctor.getRole();
+        this.uuid = doctor.getUser().getUuid();
+        this.firstName = doctor.getUser().getFirstName();
+        this.lastName = doctor.getUser().getLastName();
+        this.email = doctor.getUser().getEmail();
+        this.phoneNumber = doctor.getUser().getPhoneNumber();
+        this.office = doctor.getOfficeNumber();
+        this.role = doctor.getUser().getRole();
     }
 
     public Doctor toEntity() {
         Doctor doctor = new Doctor();
-        doctor.setFirstName(this.firstName);
-        doctor.setLastName(this.lastName);
-        doctor.setEmail(this.email);
-        doctor.setPhoneNumber(this.phoneNumber);
-        doctor.setOffice(this.office);
-        doctor.setRole(this.role);
+        doctor.getUser().setFirstName(this.firstName);
+        doctor.getUser().setLastName(this.lastName);
+        doctor.getUser().setEmail(this.email);
+        doctor.getUser().setPhoneNumber(this.phoneNumber);
+        doctor.setOfficeNumber(this.office);
+        doctor.getUser().setRole(this.role);
         return doctor;
     }
 }

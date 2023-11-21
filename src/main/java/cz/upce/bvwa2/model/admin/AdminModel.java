@@ -15,7 +15,7 @@ public class AdminModel {
 
     public static AdminModel fromEntity(Admin admin) {
         AdminModel adminModel = new AdminModel();
-        adminModel.setUuid(admin.getUuid());
+        adminModel.setUuid(admin.getUser().getUuid());
         adminModel.setEmail(admin.getUser().getEmail());
         adminModel.setFirstName(admin.getUser().getFirstName());
         adminModel.setLastName(admin.getUser().getLastName());

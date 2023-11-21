@@ -26,9 +26,9 @@ public class WorkingHoursServiceImpl implements WorkingHoursService {
                                 .hourFrom(workingHours.getHourFrom())
                                 .hoursCount(workingHours.getHoursCount())
                                 .dayOfWeek(workingHours.getDayOfWeek())
-                                .doctorName(workingHours.getDoctor().getFirstName() + " " +
-                                            workingHours.getDoctor().getLastName())
-                                .doctorUuid(workingHours.getDoctor().getUuid()).build();
+                                .doctorName(workingHours.getDoctor().getUser().getFirstName() + " " +
+                                            workingHours.getDoctor().getUser().getLastName())
+                                .doctorUuid(workingHours.getDoctor().getUser().getUuid()).build();
     }
 
     @Override
@@ -42,11 +42,15 @@ public class WorkingHoursServiceImpl implements WorkingHoursService {
                                                                           .hoursCount(workingHours.getHoursCount())
                                                                           .dayOfWeek(workingHours.getDayOfWeek())
                                                                           .doctorName(workingHours.getDoctor()
+                                                                                                  .getUser()
                                                                                                   .getFirstName() +
                                                                                       " " +
                                                                                      workingHours.getDoctor()
+                                                                                                 .getUser()
                                                                                                  .getLastName())
-                                                                         .doctorUuid(workingHours.getDoctor().getUuid())
+                                                                         .doctorUuid(workingHours.getDoctor()
+                                                                                                 .getUser()
+                                                                                                 .getUuid())
                                                                          .build())
                                      .toList();
     }
@@ -54,7 +58,7 @@ public class WorkingHoursServiceImpl implements WorkingHoursService {
     @Override
     public void create(WorkingHoursCreateModel model) {
         WorkingHours workingHours = WorkingHours.builder()
-                                                .doctor(doctorRepository.findByUuid(model.getDoctorUuid())
+                                                .doctor(doctorRepository.findByUserUuid(model.getDoctorUuid())
                                                                         .orElseThrow())
                                                 .hourFrom(model.getHourFrom())
                                                 .hoursCount(model.getHoursCount())
@@ -70,7 +74,7 @@ public class WorkingHoursServiceImpl implements WorkingHoursService {
 
     @Override
     public List<WorkingHoursModel> getAllByDoctorUuid(String doctorUuid) {
-        return workingHoursRepository.findAllByDoctorUuid(doctorUuid)
+        return workingHoursRepository.findAllByDoctorUserUuid(doctorUuid)
                                      .stream()
                                      .map(
                                          workingHours -> WorkingHoursModel.builder()
@@ -79,11 +83,14 @@ public class WorkingHoursServiceImpl implements WorkingHoursService {
                                                                           .hoursCount(workingHours.getHoursCount())
                                                                           .dayOfWeek(workingHours.getDayOfWeek())
                                                                           .doctorName(workingHours.getDoctor()
+                                                                                                  .getUser()
                                                                                                   .getFirstName() +
                                                                                       " " +
                                                                                      workingHours.getDoctor()
+                                                                                                 .getUser()
                                                                                                  .getLastName())
                                                                           .doctorUuid(workingHours.getDoctor()
+                                                                                                  .getUser()
                                                                                                   .getUuid())
                                                                           .build())
                                      .toList();

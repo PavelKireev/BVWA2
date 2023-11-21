@@ -28,7 +28,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<AppointmentModel> getAllByDoctorUuid(String doctorUuid) {
-        return repository.findAppointmentByDoctorUuid(doctorUuid)
+        return repository.findAppointmentByDoctorUserUuid(doctorUuid)
                          .stream()
                          .map(AppointmentModel::new)
                          .toList();
@@ -36,7 +36,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<AppointmentModel> getAllByPatientUuid(String patientUuid) {
-        return repository.findAppointmentByPatientUuid(patientUuid)
+        return repository.findAppointmentByPatientUserUuid(patientUuid)
                          .stream()
                          .map(AppointmentModel::new)
                          .toList();
@@ -58,9 +58,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public void create(AppointmentCreateModel model) {
         Appointment appointment = new Appointment();
-        appointment.setDoctor(doctorRepository.findByUuid(model.getDoctorUuid())
+        appointment.setDoctor(doctorRepository.findByUserUuid(model.getDoctorUuid())
                                               .orElseThrow(EntityNotFoundException::new));
-        appointment.setPatient(patientRepository.findByUuid(model.getPatientUuid())
+        appointment.setPatient(patientRepository.findByUserUuid(model.getPatientUuid())
                                                 .orElseThrow(EntityNotFoundException::new));
         appointment.setTime(model.getTime());
         repository.save(appointment);

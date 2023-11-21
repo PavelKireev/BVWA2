@@ -11,4 +11,7 @@ go there and call java keytool with the following command in terminal:
   -keystore bvwa2-jwt.jks 
 ```
 
-Then fill the required info using the matching key pass option as the password
+Then fill the required info using the matching key pass option as the password 
+
+## Windows
+"C:\Program Files\Java\jdk1.6.0_26\bin\keytool.exe" + same options as above

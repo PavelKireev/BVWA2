@@ -16,13 +16,13 @@ public class DoctorUpdateModel {
 
     public Doctor toEntity() {
         Doctor doctor = new Doctor();
-        doctor.setUuid(this.uuid);
-        doctor.setFirstName(this.firstName);
-        doctor.setLastName(this.lastName);
-        doctor.setEmail(this.email);
-        doctor.setPhoneNumber(this.phoneNumber);
-        doctor.setOffice(this.office);
-        doctor.setRole(this.role);
+        doctor.getUser().setUuid(this.uuid);
+        doctor.getUser().setFirstName(this.firstName);
+        doctor.getUser().setLastName(this.lastName);
+        doctor.getUser().setEmail(this.email);
+        doctor.getUser().setPhoneNumber(this.phoneNumber);
+        doctor.setOfficeNumber(this.office);
+        doctor.getUser().setRole(this.role);
         return doctor;
     }
 }

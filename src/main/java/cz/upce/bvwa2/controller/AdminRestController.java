@@ -7,10 +7,7 @@ import cz.upce.bvwa2.service.AdminService;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.HttpMediaTypeException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
 import java.util.List;
@@ -18,10 +15,17 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("admin")
+@RequestMapping("api/admin")
 public class AdminRestController {
 
     private final AdminService adminService;
+
+    @GetMapping("{uuid}")
+    public AdminModel adminModel(
+        @PathVariable String uuid
+    ) {
+        return adminService.getOneByUuid(uuid);
+    }
 
     @GetMapping("all")
     public List<AdminModel> getAllAdmins() {

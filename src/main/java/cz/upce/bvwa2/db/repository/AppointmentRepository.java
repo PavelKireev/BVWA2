@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
     void deleteByUuid(String uuid);
     Optional<Appointment> findByUuid(String uuid);
-    List<Appointment> findAppointmentByDoctorUuid(String doctorUuid);
-    List<Appointment> findAppointmentByPatientUuid(String patientUuid);
+    List<Appointment> findAppointmentByDoctorUserUuid(String doctorUuid);
+    List<Appointment> findAppointmentByPatientUserUuid(String patientUuid);
 }

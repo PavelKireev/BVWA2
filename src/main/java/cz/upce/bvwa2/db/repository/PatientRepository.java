@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
-    Optional<Patient> findByUuid(String uuid);
-    void deleteByUuid(String uuid);
+    Optional<Patient> findByUserUuid(String uuid);
+    void deleteByUserUuid(String uuid);
 }
