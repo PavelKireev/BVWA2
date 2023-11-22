@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface WorkingHoursRepository extends JpaRepository<WorkingHours, Long> {
 
-    List<WorkingHours> findAllByDoctorUserUuid(String doctorUuid);
+    List<WorkingHours> findAllByDoctorUuid(String doctorUuid);
     Optional<WorkingHours> findByUuid(String uuid);
     void deleteByUuid(String uuid);
 

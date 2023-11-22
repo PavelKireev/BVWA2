@@ -30,8 +30,8 @@ CREATE TABLE doctor
 
 CREATE TABLE patient
 (
-    id           BIGINT PRIMARY KEY,
-    birthday     DATE,
+    id       BIGINT PRIMARY KEY,
+    birthday DATE,
     FOREIGN KEY (id) REFERENCES users (id)
 );
 
@@ -41,6 +41,8 @@ CREATE TABLE appointment
     uuid         TEXT NOT NULL DEFAULT uuid_generate_v4(),
     doctor_uuid  TEXT NOT NULL,
     patient_uuid TEXT NOT NULL,
+    created_at   TIMESTAMP     DEFAULT NOW(),
+    updated_at   TIMESTAMP     DEFAULT NOW(),
     time         TIMESTAMP WITH TIME ZONE
 );
 
@@ -51,7 +53,9 @@ CREATE TABLE working_hours
     doctor_uuid TEXT NOT NULL,
     day_of_week TEXT NOT NULL,
     hour_from   INT  NOT NULL,
-    hours_count INT  NOT NULL
+    hours_count INT  NOT NULL,
+    created_at  TIMESTAMP     DEFAULT NOW(),
+    updated_at  TIMESTAMP     DEFAULT NOW()
 );
 
 WITH new_user AS (

@@ -1,17 +1,13 @@
 package cz.upce.bvwa2.service;
 
 import cz.upce.bvwa2.configuration.security.AuthUser;
-import cz.upce.bvwa2.db.entity.Patient;
-import cz.upce.bvwa2.db.entity.User;
 import cz.upce.bvwa2.model.auth.SignInModel;
 import cz.upce.bvwa2.model.auth.SignUpModel;
-import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;

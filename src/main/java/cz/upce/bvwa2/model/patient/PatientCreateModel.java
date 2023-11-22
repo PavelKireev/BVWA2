@@ -23,7 +23,7 @@ public class PatientCreateModel {
         patient.getUser().setEmail(this.email);
         patient.getUser().setPhoneNumber(this.phoneNumber);
         patient.getUser().setPassword(this.password);
-        patient.getUser().setRole(this.role);
+        patient.getUser().setRole("PATIENT");
         patient.setBirthday(this.birthday);
         return patient;
     }

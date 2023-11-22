@@ -26,7 +26,7 @@ public class DoctorCreateModel {
         doctor.getUser().setEmail(this.email);
         doctor.getUser().setPhoneNumber(this.phoneNumber);
         doctor.setOfficeNumber(this.office);
-        doctor.getUser().setRole(this.role);
+        doctor.getUser().setRole("DOCTOR");
         return doctor;
     }
 

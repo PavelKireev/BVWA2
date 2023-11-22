@@ -19,7 +19,9 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public DoctorModel getOneByUuid(String uuid) {
-        return null;
+        return repository.findByUserUuid(uuid)
+                         .map(DoctorModel::new)
+                         .orElseThrow();
     }
 
     @Override

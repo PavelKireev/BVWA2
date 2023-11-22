@@ -1,9 +1,6 @@
 package cz.upce.bvwa2.db.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Objects;
@@ -19,9 +16,8 @@ import java.util.Objects;
 public class WorkingHours extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name = "doctor_id")
-    private Doctor doctor;
-
+    @JoinColumn(name = "doctor_uuid", referencedColumnName = "uuid")
+    private User doctor;
     private String dayOfWeek;
     private Integer hourFrom;
     private Integer hoursCount;

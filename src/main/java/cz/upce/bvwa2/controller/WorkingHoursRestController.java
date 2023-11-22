@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("working-hours")
+@RequestMapping("api/working-hours")
 @RequiredArgsConstructor
 public class WorkingHoursRestController {
 

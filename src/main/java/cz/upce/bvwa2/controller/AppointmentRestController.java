@@ -15,7 +15,7 @@ public class AppointmentRestController {
 
     private final AppointmentService appointmentService;
 
-    @GetMapping("all")
+    @GetMapping("list")
     public List<AppointmentModel> list(){
         return appointmentService.getAll();
     }
