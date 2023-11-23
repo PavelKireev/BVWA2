@@ -1,9 +1,11 @@
 package cz.upce.bvwa2.service;
 
+import cz.upce.bvwa2.db.entity.Doctor;
 import cz.upce.bvwa2.db.repository.DoctorRepository;
 import cz.upce.bvwa2.model.doctor.DoctorCreateModel;
 import cz.upce.bvwa2.model.doctor.DoctorModel;
 import cz.upce.bvwa2.model.doctor.DoctorUpdateModel;
+import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,7 +42,9 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public void update(DoctorUpdateModel model) {
-        repository.save(model.toEntity());
+        Doctor doctor = repository.findByUserUuid(model.getUuid())
+                                  .orElseThrow(EntityExistsException::new);
+        repository.save(model.toEntity(doctor));
     }
 
     @Override

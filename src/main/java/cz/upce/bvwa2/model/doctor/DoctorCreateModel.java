@@ -15,7 +15,7 @@ public class DoctorCreateModel {
     private String password;
     private String email;
     private String phoneNumber;
-    private Long office;
+    private Long officeNumber;
     private String role;
 
     public Doctor toEntity() {
@@ -25,7 +25,7 @@ public class DoctorCreateModel {
         doctor.getUser().setPassword(this.password);
         doctor.getUser().setEmail(this.email);
         doctor.getUser().setPhoneNumber(this.phoneNumber);
-        doctor.setOfficeNumber(this.office);
+        doctor.setOfficeNumber(this.officeNumber);
         doctor.getUser().setRole("DOCTOR");
         return doctor;
     }

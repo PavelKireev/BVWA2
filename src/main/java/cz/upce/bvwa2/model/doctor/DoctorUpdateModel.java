@@ -11,18 +11,14 @@ public class DoctorUpdateModel {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private Long office;
+    private Long officeNumber;
     private String role;
 
-    public Doctor toEntity() {
-        Doctor doctor = new Doctor();
-        doctor.getUser().setUuid(this.uuid);
+    public Doctor toEntity(Doctor doctor) {
         doctor.getUser().setFirstName(this.firstName);
         doctor.getUser().setLastName(this.lastName);
-        doctor.getUser().setEmail(this.email);
         doctor.getUser().setPhoneNumber(this.phoneNumber);
-        doctor.setOfficeNumber(this.office);
-        doctor.getUser().setRole(this.role);
+        doctor.setOfficeNumber(this.officeNumber);
         return doctor;
     }
 }

@@ -25,7 +25,7 @@ public class PatientServiceImpl implements PatientService {
     @Override
     @SneakyThrows
     public PatientModel getOneByUuid(String uuid) {
-        return new PatientModel(patientRepository.findByUserUuid(uuid).orElseThrow(EntityExistsException::new));
+        return new PatientModel(patientRepository.findByUserUuid(uuid).orElseThrow(EntityNotFoundException::new));
     }
 
     @Override

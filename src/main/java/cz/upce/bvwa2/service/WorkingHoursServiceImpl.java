@@ -6,6 +6,8 @@ import cz.upce.bvwa2.db.repository.UserRepository;
 import cz.upce.bvwa2.db.repository.WorkingHoursRepository;
 import cz.upce.bvwa2.model.workinghours.WorkingHoursCreateModel;
 import cz.upce.bvwa2.model.workinghours.WorkingHoursModel;
+import jakarta.persistence.EntityExistsException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +57,7 @@ public class WorkingHoursServiceImpl implements WorkingHoursService {
     }
 
     @Override
-    public void create(WorkingHoursCreateModel model) {
+    public List<WorkingHoursModel> create(WorkingHoursCreateModel model) {
         WorkingHours workingHours = WorkingHours.builder()
                                                 .doctor(userRepository.findByUuid(model.getDoctorUuid())
                                                                       .orElseThrow())
@@ -64,11 +66,24 @@ public class WorkingHoursServiceImpl implements WorkingHoursService {
                                                 .dayOfWeek(model.getDayOfWeek())
                                                 .build();
         workingHoursRepository.save(workingHours);
+        return workingHoursRepository.findAllByDoctorUuid(model.getDoctorUuid())
+                                     .stream()
+                                     .map(WorkingHoursModel::new)
+                                     .toList();
     }
 
     @Override
-    public void deleteByUuid(String uuid) {
+    @Transactional
+    public List<WorkingHoursModel> deleteByUuid(String uuid) {
+        String doctorUuid = workingHoursRepository.findByUuid(uuid)
+                                                  .orElseThrow(EntityExistsException::new)
+                                                  .getDoctor()
+                                                  .getUuid();
         workingHoursRepository.deleteByUuid(uuid);
+        return workingHoursRepository.findAllByDoctorUuid(doctorUuid)
+                                     .stream()
+                                     .map(WorkingHoursModel::new)
+                                     .toList();
     }
 
     @Override

@@ -11,7 +11,7 @@ public class DoctorModel {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private Long office;
+    private Long officeNumber;
     private String role;
 
     public DoctorModel(Doctor doctor) {
@@ -20,7 +20,7 @@ public class DoctorModel {
         this.lastName = doctor.getUser().getLastName();
         this.email = doctor.getUser().getEmail();
         this.phoneNumber = doctor.getUser().getPhoneNumber();
-        this.office = doctor.getOfficeNumber();
+        this.officeNumber = doctor.getOfficeNumber();
         this.role = doctor.getUser().getRole();
     }
 
@@ -30,7 +30,7 @@ public class DoctorModel {
         doctor.getUser().setLastName(this.lastName);
         doctor.getUser().setEmail(this.email);
         doctor.getUser().setPhoneNumber(this.phoneNumber);
-        doctor.setOfficeNumber(this.office);
+        doctor.setOfficeNumber(this.officeNumber);
         doctor.getUser().setRole(this.role);
         return doctor;
     }

@@ -16,10 +16,10 @@ public class WorkingHoursRestController {
     private final WorkingHoursService workingHoursService;
 
     @PostMapping("create")
-    public void create(
+    public List<WorkingHoursModel> create(
         @RequestBody WorkingHoursCreateModel model
     ) {
-        workingHoursService.create(model);
+        return workingHoursService.create(model);
     }
 
     @GetMapping("list")
@@ -29,10 +29,10 @@ public class WorkingHoursRestController {
         return workingHoursService.getAllByDoctorUuid(doctorUuid);
     }
 
-    @GetMapping("delete")
-    public void delete(
+    @DeleteMapping("delete")
+    public List<WorkingHoursModel> delete(
         @RequestParam String uuid
     ) {
-        workingHoursService.deleteByUuid(uuid);
+        return workingHoursService.deleteByUuid(uuid);
     }
 }

@@ -25,7 +25,7 @@ public class Patient {
     @JoinColumn(name = "id")
     private User user;
 
-    @DateTimeFormat
+    @DateTimeFormat(pattern = "yyyy.MM.dd")
     private Date birthday;
 
     @OneToMany(mappedBy = "patient")
