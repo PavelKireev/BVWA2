@@ -1,12 +1,14 @@
 package cz.upce.bvwa2.model.patient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 import cz.upce.bvwa2.db.entity.Patient;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -23,6 +25,8 @@ public class PatientCreateModel {
     private String phoneNumber;
     @Getter
     private String password;
+    @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
+    @JsonSerialize(using = DateSerializer.class)
     private Date birthDate;
     @Getter
     private String role;

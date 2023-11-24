@@ -7,9 +7,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.Hibernate;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 @Getter
@@ -26,7 +25,7 @@ public class Appointment extends BaseEntity {
     @ManyToOne
     @JoinColumn(name="patient_uuid")
     private Patient patient;
-    private LocalDateTime time;
+    private Date time;
 
     @Override
     public boolean equals(Object o) {

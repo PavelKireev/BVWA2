@@ -3,7 +3,6 @@ package cz.upce.bvwa2.db.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import java.util.Objects;
 

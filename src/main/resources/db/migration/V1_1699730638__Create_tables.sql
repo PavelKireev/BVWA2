@@ -31,7 +31,7 @@ CREATE TABLE doctor
 CREATE TABLE patient
 (
     id       BIGINT PRIMARY KEY,
-    birthday DATE,
+    birthday TIMESTAMP,
     FOREIGN KEY (id) REFERENCES users (id)
 );
 

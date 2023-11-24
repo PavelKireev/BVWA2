@@ -7,6 +7,7 @@ import cz.upce.bvwa2.db.repository.PatientRepository;
 import cz.upce.bvwa2.model.appointment.AppointmentCreateModel;
 import cz.upce.bvwa2.model.appointment.AppointmentModel;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    @Transactional
     public void deleteByUuid(String uuid) {
         repository.deleteByUuid(uuid);
     }

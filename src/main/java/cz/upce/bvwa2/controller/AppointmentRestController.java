@@ -20,7 +20,7 @@ public class AppointmentRestController {
         return appointmentService.getAll();
     }
 
-    @GetMapping("{uuid}")
+    @GetMapping("appointment/{uuid}")
     public AppointmentModel getOne(
         @PathVariable String uuid
     ) {
@@ -48,9 +48,9 @@ public class AppointmentRestController {
         appointmentService.create(model);
     }
 
-    @DeleteMapping("delete/{uuid}")
+    @DeleteMapping("delete")
     public void delete(
-        @PathVariable String uuid
+        @RequestParam String uuid
     ) {
         appointmentService.deleteByUuid(uuid);
     }

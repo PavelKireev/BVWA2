@@ -1,9 +1,11 @@
 package cz.upce.bvwa2.model.patient;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 import cz.upce.bvwa2.db.entity.Patient;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -14,7 +16,8 @@ public class PatientUpdateModel {
     private String lastName;
     private String email;
     private String phoneNumber;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd")
+    @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
+    @JsonSerialize(using = DateSerializer.class)
     private Date birthDate;
 
     public Patient toEntity(Patient patient) {

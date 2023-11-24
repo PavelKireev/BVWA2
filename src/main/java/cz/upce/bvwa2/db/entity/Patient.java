@@ -1,12 +1,10 @@
 package cz.upce.bvwa2.db.entity;
 
-import ch.qos.logback.core.util.TimeUtil;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.Hibernate;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +23,6 @@ public class Patient {
     @JoinColumn(name = "id")
     private User user;
 
-    @DateTimeFormat(pattern = "yyyy.MM.dd")
     private Date birthday;
 
     @OneToMany(mappedBy = "patient")
