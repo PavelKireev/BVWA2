@@ -1,7 +1,9 @@
 package cz.upce.bvwa2.service;
 
 import cz.upce.bvwa2.db.entity.Patient;
+import cz.upce.bvwa2.db.entity.User;
 import cz.upce.bvwa2.db.repository.PatientRepository;
+import cz.upce.bvwa2.db.repository.UserRepository;
 import cz.upce.bvwa2.model.auth.SignUpModel;
 import cz.upce.bvwa2.model.patient.PatientCreateModel;
 import cz.upce.bvwa2.model.patient.PatientModel;
@@ -19,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PatientServiceImpl implements PatientService {
 
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final PatientRepository patientRepository;
 
@@ -44,6 +47,8 @@ public class PatientServiceImpl implements PatientService {
         patient.getUser().setEmail(signUpModel.getEmail());
         patient.getUser().setPassword(signUpModel.getPassword());
         patient.getUser().setRole("PATIENT");
+        User user = userRepository.save(patient.getUser());
+        patient.setUuid(user.getUuid());
         patientRepository.save(patient);
     }
 
@@ -57,6 +62,9 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public void create(PatientCreateModel patientCreateModel) {
         patientCreateModel.setPassword(passwordEncoder.encode(patientCreateModel.getPassword()));
+        Patient patient = patientCreateModel.toEntity();
+        User user = userRepository.save(patient.getUser());
+        patient.setUuid(user.getUuid());
         patientRepository.save(patientCreateModel.toEntity());
     }
 

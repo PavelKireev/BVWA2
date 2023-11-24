@@ -14,7 +14,7 @@ public class Admin {
 
     @Id
     private Long id;
-
+    private String uuid;
     @OneToOne
     @MapsId
     @JoinColumn(name = "id")

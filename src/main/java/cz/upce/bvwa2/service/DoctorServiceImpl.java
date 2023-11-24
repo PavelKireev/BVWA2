@@ -1,7 +1,9 @@
 package cz.upce.bvwa2.service;
 
 import cz.upce.bvwa2.db.entity.Doctor;
+import cz.upce.bvwa2.db.entity.User;
 import cz.upce.bvwa2.db.repository.DoctorRepository;
+import cz.upce.bvwa2.db.repository.UserRepository;
 import cz.upce.bvwa2.model.doctor.DoctorCreateModel;
 import cz.upce.bvwa2.model.doctor.DoctorModel;
 import cz.upce.bvwa2.model.doctor.DoctorUpdateModel;
@@ -17,6 +19,7 @@ import java.util.List;
 public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository repository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -37,7 +40,10 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public void create(DoctorCreateModel model) {
         model.setPassword(passwordEncoder.encode(model.getPassword()));
-        repository.save(model.toEntity());
+        Doctor doctor = model.toEntity();
+        User user = userRepository.save(doctor.getUser());
+        doctor.setUuid(user.getUuid());
+        repository.save(doctor);
     }
 
     @Override

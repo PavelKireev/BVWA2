@@ -29,7 +29,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<AppointmentModel> getAllByDoctorUuid(String doctorUuid) {
-        return repository.findAppointmentByDoctorUserUuid(doctorUuid)
+        return repository.findAppointmentByDoctorUuid(doctorUuid)
                          .stream()
                          .map(AppointmentModel::new)
                          .toList();
@@ -37,7 +37,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<AppointmentModel> getAllByPatientUuid(String patientUuid) {
-        return repository.findAppointmentByPatientUserUuid(patientUuid)
+        return repository.findAppointmentByPatientUuid(patientUuid)
                          .stream()
                          .map(AppointmentModel::new)
                          .toList();

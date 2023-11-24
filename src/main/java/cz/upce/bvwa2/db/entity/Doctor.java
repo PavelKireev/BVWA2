@@ -18,6 +18,7 @@ public class Doctor {
 
     @Id
     private Long id;
+    private String uuid;
 
     @OneToOne
     @MapsId

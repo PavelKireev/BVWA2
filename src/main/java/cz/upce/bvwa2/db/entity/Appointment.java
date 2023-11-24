@@ -19,11 +19,10 @@ import java.util.Objects;
 public class Appointment extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name="doctor_uuid")
+    @JoinColumn(name="doctor_uuid", referencedColumnName = "uuid")
     private Doctor doctor;
-
     @ManyToOne
-    @JoinColumn(name="patient_uuid")
+    @JoinColumn(name="patient_uuid", referencedColumnName = "uuid")
     private Patient patient;
     private Date time;
 

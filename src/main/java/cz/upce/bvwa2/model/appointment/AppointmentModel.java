@@ -24,7 +24,6 @@ public class AppointmentModel {
     public AppointmentModel(Appointment appointment) {
         this.uuid = appointment.getUuid();
         this.patientUuid = appointment.getPatient()
-                                      .getUser()
                                       .getUuid();
         this.patientName = appointment.getPatient()
                                       .getUser()

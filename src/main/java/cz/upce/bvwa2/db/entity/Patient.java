@@ -17,6 +17,7 @@ public class Patient {
 
     @Id
     private Long id;
+    private String uuid;
 
     @OneToOne
     @MapsId
