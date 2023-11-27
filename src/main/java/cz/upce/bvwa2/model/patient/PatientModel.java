@@ -31,6 +31,8 @@ public class PatientModel {
     @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
     @JsonSerialize(using = DateSerializer.class)
     private Date birthDate;
+    @Getter
+    private String role;
 
     public PatientModel(Patient entity) {
         this.uuid = entity.getUser().getUuid();
@@ -39,6 +41,7 @@ public class PatientModel {
         this.email = entity.getUser().getEmail();
         this.phoneNumber = entity.getUser().getPhoneNumber();
         this.birthDate = entity.getBirthday();
+        this.role = entity.getUser().getRole();
     }
 
     public PatientModel setFirstName(String firstName) {
@@ -68,6 +71,11 @@ public class PatientModel {
 
     public PatientModel setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+        return this;
+    }
+
+    public PatientModel setRole(String role) {
+        this.role = role;
         return this;
     }
 }

@@ -2,12 +2,15 @@ package cz.upce.bvwa2.service;
 
 import cz.upce.bvwa2.db.entity.Doctor;
 import cz.upce.bvwa2.db.entity.User;
+import cz.upce.bvwa2.db.repository.AppointmentRepository;
 import cz.upce.bvwa2.db.repository.DoctorRepository;
 import cz.upce.bvwa2.db.repository.UserRepository;
+import cz.upce.bvwa2.db.repository.WorkingHoursRepository;
 import cz.upce.bvwa2.model.doctor.DoctorCreateModel;
 import cz.upce.bvwa2.model.doctor.DoctorModel;
 import cz.upce.bvwa2.model.doctor.DoctorUpdateModel;
 import jakarta.persistence.EntityExistsException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,8 @@ public class DoctorServiceImpl implements DoctorService {
     private final DoctorRepository repository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AppointmentRepository appointmentRepository;
+    private final WorkingHoursRepository workingHoursRepository;
 
     @Override
     public DoctorModel getOneByUuid(String uuid) {
@@ -54,7 +59,10 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional
     public void deleteByUuid(String uuid) {
+        appointmentRepository.deleteAllByDoctorUuid(uuid);
+        workingHoursRepository.deleteAllByDoctorUuid(uuid);
         repository.deleteByUserUuid(uuid);
     }
 }

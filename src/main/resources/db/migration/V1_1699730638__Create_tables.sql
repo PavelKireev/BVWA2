@@ -48,7 +48,7 @@ CREATE TABLE appointment
     patient_uuid TEXT NOT NULL,
     created_at   TIMESTAMP     DEFAULT NOW(),
     updated_at   TIMESTAMP     DEFAULT NOW(),
-    time         TIMESTAMP WITH TIME ZONE
+    time         TIMESTAMP
 );
 
 CREATE TABLE working_hours

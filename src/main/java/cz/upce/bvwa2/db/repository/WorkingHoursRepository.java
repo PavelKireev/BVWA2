@@ -13,5 +13,6 @@ public interface WorkingHoursRepository extends JpaRepository<WorkingHours, Long
     List<WorkingHours> findAllByDoctorUuid(String doctorUuid);
     Optional<WorkingHours> findByUuid(String uuid);
     void deleteByUuid(String uuid);
+    void deleteAllByDoctorUuid(String doctorUuid);
 
 }

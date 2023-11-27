@@ -6,6 +6,7 @@ import cz.upce.bvwa2.db.repository.DoctorRepository;
 import cz.upce.bvwa2.db.repository.PatientRepository;
 import cz.upce.bvwa2.db.repository.UserRepository;
 import cz.upce.bvwa2.model.user.UserCreateModel;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,14 +15,15 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
-    private final AdminRepository adminRepository;
-    private final DoctorRepository doctorRepository;
-    private final PatientRepository patientRepository;
 
     public void create(UserCreateModel model) {
+        throw new UnsupportedOperationException();
+    }
 
-        User user = new User();
-        
+    public void updatePassword(String userUuid, String newPassword) {
+        User user = repository.findByUuid(userUuid)
+                              .orElseThrow(EntityNotFoundException::new);
+        user.setPassword(newPassword);
         repository.save(user);
     }
 }

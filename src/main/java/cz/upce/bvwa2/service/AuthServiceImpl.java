@@ -1,6 +1,8 @@
 package cz.upce.bvwa2.service;
 
 import cz.upce.bvwa2.configuration.security.AuthUser;
+import cz.upce.bvwa2.db.entity.User;
+import cz.upce.bvwa2.model.auth.PasswordUpdateModel;
 import cz.upce.bvwa2.model.auth.SignInModel;
 import cz.upce.bvwa2.model.auth.SignUpModel;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,12 +17,14 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private final JwtEncoder encoder;
+    private final UserService userService;
     private final PatientService patientService;
     private final PasswordEncoder passwordEncoder;
 
@@ -54,5 +58,14 @@ public class AuthServiceImpl implements AuthService {
     public void signUp(SignUpModel model) {
         model.setPassword(passwordEncoder.encode(model.getPassword()));
         patientService.create(model);
+    }
+
+    @Override
+    public void updatePassword(User authUser, PasswordUpdateModel model) {
+        if (!passwordEncoder.matches(model.getCurrentPassword(), authUser.getPassword()) &&
+            !Objects.equals(model.getNewPassword(), model.getConfirmPassword())) {
+            throw new IllegalArgumentException("Old password is not correct");
+        }
+        userService.updatePassword(authUser.getUuid(), passwordEncoder.encode(model.getNewPassword()));
     }
 }

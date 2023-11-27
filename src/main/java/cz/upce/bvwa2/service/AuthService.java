@@ -1,5 +1,8 @@
 package cz.upce.bvwa2.service;
 
+import cz.upce.bvwa2.configuration.security.AuthUser;
+import cz.upce.bvwa2.db.entity.User;
+import cz.upce.bvwa2.model.auth.PasswordUpdateModel;
 import cz.upce.bvwa2.model.auth.SignInModel;
 import cz.upce.bvwa2.model.auth.SignUpModel;
 import lombok.SneakyThrows;
@@ -10,4 +13,6 @@ public interface AuthService {
 
     @SneakyThrows
     void signUp(SignUpModel model);
+
+    void updatePassword(User authUser, PasswordUpdateModel model);
 }

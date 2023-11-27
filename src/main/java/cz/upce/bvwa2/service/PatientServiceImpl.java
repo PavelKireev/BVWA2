@@ -2,6 +2,7 @@ package cz.upce.bvwa2.service;
 
 import cz.upce.bvwa2.db.entity.Patient;
 import cz.upce.bvwa2.db.entity.User;
+import cz.upce.bvwa2.db.repository.AppointmentRepository;
 import cz.upce.bvwa2.db.repository.PatientRepository;
 import cz.upce.bvwa2.db.repository.UserRepository;
 import cz.upce.bvwa2.model.auth.SignUpModel;
@@ -10,6 +11,7 @@ import cz.upce.bvwa2.model.patient.PatientModel;
 import cz.upce.bvwa2.model.patient.PatientUpdateModel;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +26,7 @@ public class PatientServiceImpl implements PatientService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final PatientRepository patientRepository;
+    private final AppointmentRepository appointmentRepository;
 
     @Override
     @SneakyThrows
@@ -65,11 +68,13 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = patientCreateModel.toEntity();
         User user = userRepository.save(patient.getUser());
         patient.setUuid(user.getUuid());
-        patientRepository.save(patientCreateModel.toEntity());
+        patientRepository.save(patient);
     }
 
     @Override
+    @Transactional
     public void deleteByUuid(String uuid) {
+        appointmentRepository.deleteAllByPatientUuid(uuid);
         patientRepository.deleteByUserUuid(uuid);
     }
 }
