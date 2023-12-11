@@ -70,8 +70,8 @@ public class WebSecurityConfig {
         RSAKey rsaKey = RSAKey.load(
             KeyStore.getInstance(
                 file, "bvwa2-pass".toCharArray()),
-            "bvwa2-oauth-jwt",
-            "bvwa2-pass".toCharArray());
+               "bvwa2-oauth-jwt",
+               "bvwa2-pass".toCharArray());
 
         this.keyPair = rsaKey.toKeyPair();
     }

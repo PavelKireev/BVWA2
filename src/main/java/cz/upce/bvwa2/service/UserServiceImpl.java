@@ -1,14 +1,13 @@
 package cz.upce.bvwa2.service;
 
 import cz.upce.bvwa2.db.entity.User;
-import cz.upce.bvwa2.db.repository.AdminRepository;
-import cz.upce.bvwa2.db.repository.DoctorRepository;
-import cz.upce.bvwa2.db.repository.PatientRepository;
 import cz.upce.bvwa2.db.repository.UserRepository;
 import cz.upce.bvwa2.model.user.UserCreateModel;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,5 +24,10 @@ public class UserServiceImpl implements UserService {
                               .orElseThrow(EntityNotFoundException::new);
         user.setPassword(newPassword);
         repository.save(user);
+    }
+
+    @Override
+    public List<User> getAll() {
+        return repository.findAll();
     }
 }

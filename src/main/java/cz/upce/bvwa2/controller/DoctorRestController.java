@@ -16,9 +16,7 @@ import java.util.List;
 @RequestMapping("api/doctor")
 @RequiredArgsConstructor
 public class DoctorRestController {
-
     private final DoctorService doctorService;
-
     @GetMapping("list")
     public List<DoctorModel> list() {
         return doctorService.getAll();
