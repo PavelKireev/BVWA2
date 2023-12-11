@@ -1,9 +1,13 @@
 package cz.upce.bvwa2.db.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Type;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.sql.Types;
 import java.util.Objects;
 
 @Getter
@@ -15,12 +19,17 @@ import java.util.Objects;
 @Table(name = "users")
 @AllArgsConstructor
 public class User extends BaseEntity {
+
     private String firstName;
     private String lastName;
     private String password;
     private String email;
     private String phoneNumber;
     private String role;
+
+    @Column(name = "profile_photo")
+    @JdbcTypeCode(Types.VARBINARY)
+    private byte[] profilePhoto;
 
     @Override
     public boolean equals(Object o) {
